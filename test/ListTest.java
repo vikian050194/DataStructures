@@ -10,11 +10,36 @@ class ListTest {
     }
 
     @Test
-    public void listWithOneAddedItemShouldHaveLengthEqualToOne() {
+    public void listWithThreeAddedItemsShouldHaveLengthEqualToThree() {
+        var list = new List<Integer>();
+        var element = 42;
+        var count = 3;
+
+        for (var i = 0; i < count; i++)
+        {
+            list.Add(element);
+        }
+
+        assertEquals(count, list.getLength(), "length should be " + count);
+    }
+
+
+    @Test
+    public void getterShouldReturnFirstElement() {
+        var list = new List<Integer>();
+        var firstElement = 42;
+
+        list.Add(firstElement);
+
+        assertEquals(firstElement, list.get(0), "first element should be " + firstElement);
+    }
+
+    @Test
+    public void getterShouldThrowException() {
         var list = new List<Integer>();
 
-        list.Add(1);
-
-        assertEquals(1, list.getLength(), "length should be one");
+        assertThrows(IndexOutOfBoundsException.class, () -> {
+            list.get(0);
+        });
     }
 }
