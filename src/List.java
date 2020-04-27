@@ -1,9 +1,9 @@
 public class List<T> {
-    private int  _index;
-    private Object[] _elements;
+    private int currentIndex;
+    private Object[] elements;
 
     public int getLength(){
-        return  _index + 1;
+        return  currentIndex + 1;
     }
 
     public List(){
@@ -11,19 +11,49 @@ public class List<T> {
     }
 
     public List(Integer capacity){
-        _index = -1;
-        _elements = new Object[capacity];
+        currentIndex = -1;
+        elements = new Object[capacity];
     }
 
-    public T get(Integer index) {
-        if(index > _index){
-            throw new IndexOutOfBoundsException();
+    public T get(int targetIndex) {
+        validateTargetIndex(targetIndex);
+
+        return (T) elements[targetIndex];
+    }
+
+    public void set(int targetIndex, T value) {
+        validateTargetIndex(targetIndex);
+
+        elements[targetIndex] = value;
+    }
+
+    public void add(T element){
+        elements[++currentIndex] = element;
+    }
+
+    public void remove(int targetIndex){
+        validateTargetIndex(targetIndex);
+
+        for (int index = targetIndex + 1; index <= currentIndex; index++) {
+            elements[index - 1] = elements[index];
         }
 
-        return (T) _elements[index];
+        currentIndex--;
     }
 
-    public void Add(T element){
-        _elements[++_index] = element;
+    public <T extends Comparable<T>> boolean contains(T targetElement){
+        for (int i = 0; i <= currentIndex; i++) {
+            if(((T) elements[i]).compareTo(targetElement) == 0){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void validateTargetIndex(int targetIndex){
+        if(targetIndex < 0 || targetIndex > currentIndex){
+            throw new IndexOutOfBoundsException();
+        }
     }
 }
